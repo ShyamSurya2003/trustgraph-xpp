@@ -1,5 +1,4 @@
 import numpy as np
-import shap
 import torch
 
 from .config import BEHAVIOR_FEATURES, TWIN_FEATURES
@@ -82,8 +81,17 @@ class TrustGraphService:
             return y.numpy()
 
         background = np.array([[0.92, 0.88, 0.9], [0.72, 0.65, 0.8], [0.45, 0.55, 0.6], [0.25, 0.35, 0.4]], dtype=np.float32)
-        explainer = shap.KernelExplainer(predict, background)
-        values = np.array(explainer.shap_values(x, nsamples=32)).reshape(-1)
+        try:
+            import shap
+
+            explainer = shap.KernelExplainer(predict, background)
+            values = np.array(explainer.shap_values(x, nsamples=32)).reshape(-1)
+        except Exception:
+            base = predict(background).mean()
+            current = predict(x)[0]
+            raw = np.array([behavior_score - 70, graph_score - 70, twin_score - 70], dtype=np.float32)
+            scale = float(current - base) / float(np.abs(raw).sum() or 1)
+            values = raw * scale
         names = ["Behavior Intelligence", "Identity Graph", "Digital Twin"]
         ranked = sorted(zip(names, values, [behavior_score, graph_score, twin_score]), key=lambda item: abs(item[1]), reverse=True)
         explanation = []
