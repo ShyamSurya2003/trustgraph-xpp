@@ -39,7 +39,7 @@ import {
 } from "recharts";
 import "./styles.css";
 
-const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8001";
+const API = import.meta.env.VITE_API_URL || "https://trustgraph-xpp-api.onrender.com";
 
 const pages = [
   { id: "overview", label: "Trust Command Center", icon: LayoutDashboard },
