@@ -9,7 +9,5 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.11
-      - key: MONGODB_URI
-        sync: false
       - key: MONGODB_DB
         value: trustgraph_xpp
