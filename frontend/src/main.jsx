@@ -30,8 +30,6 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  RadialBar,
-  RadialBarChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -155,7 +153,6 @@ function ModelBadge({ label, model, status = "checkpoint loaded" }) {
 function TrustGauge({ score = 0, decision = "Loading" }) {
   const meta = getDecisionMeta(decision);
   const Icon = meta.icon;
-  const data = [{ name: "trust", value: Number(score), fill: "url(#trustGradient)" }];
   return (
     <section className={cn("hero-decision", meta.tone)}>
       <div className="hero-copy">
@@ -166,24 +163,6 @@ function TrustGauge({ score = 0, decision = "Loading" }) {
           <Icon size={22} />
           <span>Final Identity Trust Score</span>
           <b>{fmt(score)}</b>
-        </div>
-      </div>
-      <div className="gauge-wrap">
-        <ResponsiveContainer width="100%" height="100%">
-          <RadialBarChart innerRadius="72%" outerRadius="100%" data={data} startAngle={210} endAngle={-30}>
-            <defs>
-              <linearGradient id="trustGradient" x1="0" x2="1">
-                <stop offset="0%" stopColor="#ef4444" />
-                <stop offset="48%" stopColor="#f59e0b" />
-                <stop offset="100%" stopColor="#10b981" />
-              </linearGradient>
-            </defs>
-            <RadialBar dataKey="value" cornerRadius={18} background={{ fill: "rgba(255,255,255,.18)" }} />
-          </RadialBarChart>
-        </ResponsiveContainer>
-        <div className="gauge-center">
-          <b>{fmt(score)}</b>
-          <span>/100</span>
         </div>
       </div>
     </section>

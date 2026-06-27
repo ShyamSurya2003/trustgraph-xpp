@@ -104,10 +104,6 @@ nav button:hover, nav button.active {
   background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.18);
 }
 .decision-band b { font-size: 24px; }
-.gauge-wrap { position: absolute; z-index: 1; right: 22px; bottom: 10px; width: 230px; height: 170px; min-width: 0; opacity: .95; pointer-events: none; }
-.gauge-center { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -38%); display: grid; place-items: center; }
-.gauge-center b { font-size: 38px; line-height: 1; }
-.gauge-center span { color: #dce9f6; font-weight: 900; }
 
 .score-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .metric-tile, .panel, .evidence-panel {
@@ -198,11 +194,9 @@ nav button:hover, nav button.active {
   .hero-decision, .two-col, .graph-layout { grid-template-columns: 1fr; }
   .score-strip, .workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero-decision { min-height: auto; }
-  .gauge-wrap { position: relative; right: auto; bottom: auto; height: 210px; width: min(100%, 320px); max-width: 360px; }
 }
 @media (max-width: 1280px) and (min-width: 1121px) {
   .hero-decision { grid-template-columns: 1fr; gap: 12px; }
-  .gauge-wrap { width: 220px; height: 160px; }
   .hero-copy h2 { font-size: 58px; }
 }
 @media (max-width: 720px) {
