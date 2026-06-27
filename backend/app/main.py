@@ -8,9 +8,8 @@ from pydantic import BaseModel, Field
 from .config import BEHAVIOR_FEATURES, TWIN_FEATURES
 from .db import init_db, log_assessment
 from .lightweight import LightweightTrustGraphService
-from .services import TrustGraphService
 
-service: TrustGraphService | None = None
+service = None
 
 
 class BehaviorRequest(BaseModel):
@@ -41,6 +40,8 @@ async def lifespan(app: FastAPI):
     if os.getenv("TRUSTGRAPH_LIGHTWEIGHT", "").lower() == "true":
         service = LightweightTrustGraphService()
     else:
+        from .services import TrustGraphService
+
         service = TrustGraphService()
     yield
 
@@ -49,7 +50,7 @@ app = FastAPI(title="TrustGraph-X++ API", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
-def svc() -> TrustGraphService:
+def svc():
     if service is None:
         raise HTTPException(status_code=503, detail="Models are still loading")
     return service
