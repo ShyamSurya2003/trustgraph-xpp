@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import os
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +7,7 @@ from pydantic import BaseModel, Field
 
 from .config import BEHAVIOR_FEATURES, TWIN_FEATURES
 from .db import init_db, log_assessment
+from .lightweight import LightweightTrustGraphService
 from .services import TrustGraphService
 
 service: TrustGraphService | None = None
@@ -36,7 +38,10 @@ class FusionRequest(BaseModel):
 async def lifespan(app: FastAPI):
     global service
     init_db()
-    service = TrustGraphService()
+    if os.getenv("TRUSTGRAPH_LIGHTWEIGHT", "").lower() == "true":
+        service = LightweightTrustGraphService()
+    else:
+        service = TrustGraphService()
     yield
 
 
